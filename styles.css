@@ -53,7 +53,7 @@ button{
 
 
 /* Dark mode */
-@media (prefers-color-scheme: Dark) {
+@media (prefers-color-scheme: Light) {
     body {
         background-color: #343639;
     }
@@ -73,7 +73,7 @@ button{
 }
 
 /* Light mode */
-@media (prefers-color-scheme: Light) {
+@media (prefers-color-scheme: Dark) {
     body {
         background-color: white;
     }
