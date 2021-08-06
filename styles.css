@@ -39,10 +39,12 @@ button{
 
     font-family: 'Nunito', sans-serif;
     font-size: 3rem; 
+
+    border-style: solid;
+    border-width: 1px;
 }
 .general button{    
-    margin-bottom: 3%;
-    
+    margin-bottom: 3%; 
 }
 
 .especifico button{
@@ -52,23 +54,23 @@ button{
 }
 
 
+
+
 /* Dark mode */
 @media (prefers-color-scheme: Dark) {
     body {
         background-color: #343639;
     }
-    button{
-        border: black;
-        background-color: #efbe2c;
-        color: #343639;
-
-        border-style: solid;
-        border-width: 1px;
-    }
-    button:active{
+    .uncheck{
         background-color: #343639;
         border-color: #efbe2c;
         color: #efbe2c;
+    }
+    
+    .check{
+        border: black;
+        background-color: #efbe2c;
+        color: #343639;
     }
 }
 
@@ -77,15 +79,13 @@ button{
     body {
         background-color: white;
     }
-    button{
+    .uncheck{
         border: black;
         background-color: #c4c4c4;
         color: #343639;
-
-        border-style: solid;
-        border-width: 1px;
     }
-    button:active{
+    
+    .check{
         background-color: #efbe2c;
         border-color: #343639;
     }
