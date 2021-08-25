@@ -1,7 +1,23 @@
-var music;
-var elemet;
+let music;
+let elemet;
+let strLED1 = "";
+let strLED2 = "";
+let LED2_state = 0;
 
 let buttoms = ['uncheck', 'uncheck', 'uncheck', 'uncheck', 'uncheck', 'uncheck', 'uncheck', 'uncheck', 'uncheck']
+
+function GetArduinoIO()
+{
+    nocache = "&nocache=" + Math.random() * 1000000;
+    var request = new XMLHttpRequest();
+            
+    // send HTTP GET request with LEDs to switch on/off if any
+    request.open("GET", "ajax_inputs" + strRELAY1 + strRELAY2 + strRELAY3 + strRELAY4 + strRELAY5 + strRELAY6 + nocache, true);
+    request.send(null);
+    setTimeout('GetArduinoIO()', 1000);
+    strRELAY1 , strRELAY2, strRELAY3, strRELAY4, strRELAY5, strRELAY6 = "";
+}
+
 
 function playMusic(){
     music = new Audio('sound-14.mp3');
@@ -91,64 +107,14 @@ function togle(id){
 
     for (let index = 0; index < buttoms.length; index++) {
         document.getElementById(index).className = buttoms[index];   
-    }
 
-
-}
-
-
-
-/*
-
-
-
-if (id == 6){
-    for (let index = 0; index < buttoms.length; index++) {
-        if (index < 7) {
-            buttoms[index] = 'check'
-        } else {
-            buttoms[index] = 'uncheck'
+        if (buttoms[index] == "check") {
+            strRELAY[i+1] = `&Relay${i+1}=1`;
+        }
+        else {
+            strRELAY[i+1] = `&Relay${i+1}=0`;
         }
     }
-}
-if (id == 7) {
-    for (let index = 0; index < buttoms.length; index++) {
-        if (index < 4 || index == 7) {
-            buttoms[index] = 'check'
-        } else {
-            buttoms[index] = 'uncheck'
-        }
-    }
-}
-if (id == 8) {
-    for (let index = 0; index < buttoms.length; index++) {
-        if (index == 4 || index == 5 || index == 8) {
-            buttoms[index] = 'check'
-        } else {
-            buttoms[index] = 'uncheck'
-        }
-    }
-}
 
 
-if (id == 6) {
-    for (let index = 0; index < buttoms.length; index++) {
-        buttoms[index] = 'uncheck'  
-    }
 }
-if (id == 7) {
-    for (let index = 0; index < buttoms.length; index++) {
-        if (index < 4 || index == 7) {
-            buttoms[index] = 'uncheck'
-        } 
-    }
-}
-if (id == 8) {
-    for (let index = 0; index < buttoms.length; index++) {
-        if (index == 4 || index == 5 || index == 8) {
-            buttoms[index] = 'uncheck'
-        } 
-    }
-}
-
-*/
