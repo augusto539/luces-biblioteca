@@ -5,12 +5,11 @@
     <script>
         let music;
         var elemet;
-        let strLED1 = "";
-        let strLED2 = "";
+
         let LED2_state = 0;
 
         let buttoms = ['uncheck', 'uncheck', 'uncheck', 'uncheck', 'uncheck', 'uncheck', 'uncheck', 'uncheck', 'uncheck'];
-        let strRELAY = [];
+        let strRELAY = ['', '', '' ,'', '', ''];
 
         function GetArduinoIO()
         {
@@ -18,10 +17,10 @@
             var request = new XMLHttpRequest();
                     
             // send HTTP GET request with LEDs to switch on/off if any
-            request.open("GET", "ajax_inputs" + strRELAY[0] + strRELAY[1] + strRELAY[2] + strRELAY[3] + strRELAY[4] + strRELAY[5] + nocache, true + '/n');
+            request.open("GET", "ajax_inputs" + strRELAY[0] + strRELAY[1] + strRELAY[2] + strRELAY[3] + strRELAY[4] + strRELAY[5] + nocache, true);
             request.send(null);
             setTimeout('GetArduinoIO()', 1000);
-            strRELAY[0] , strRELAY[1], strRELAY[2], strRELAY[3], strRELAY[4], strRELAY[5] = "";
+            strRELAY = ['', '', '' ,'', '', ''];
         }
 
 
@@ -117,11 +116,11 @@
 
             for (let index = 0; index < 7; index++) {
                 if (buttoms[index] == "check") {
-                    strRELAY[index] = `&Relay${index+1}=1`;
-                    console.log(`&Relay${index+1}=1`);
+                    strRELAY[index] = `&${index}=1`;
+                    console.log(`&${index}=1`);
                 }
                 else {
-                    strRELAY[index] = `&Relay${index+1}=0`;
+                    strRELAY[index] = `&${index}=0`;
                 }  
                 //console.log(index)
             }
@@ -224,7 +223,7 @@
         }
     </style> 
 </head>
-<body>
+<body onload="GetArduinoIO()">
     <div class="general">
         <button id="6" name="all" class="uncheck" onclick="playMusic();togle(6)"> Todas </button>
         <button id="7" name="up" class="uncheck" onclick="playMusic();togle(7)"> Arriva </button>
