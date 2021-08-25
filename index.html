@@ -230,12 +230,12 @@
                 document.getElementById(index).className = buttoms[index];    
             }
 
-            for (let index = 1; index < 7; index++) {
-                if (buttoms[index] == "check") {
-                    strRELAY[i] = `&Relay${i}=1`;
+            for (let index = 0; index < 7; index++) {
+                if (buttoms[index - 1] == "check") {
+                    strRELAY[index] = `&Relay${index}=1`;
                 }
                 else {
-                    strRELAY[i] = `&Relay${i}=0`;
+                    strRELAY[index] = `&Relay${index}=0`;
                 }  
             }
 
