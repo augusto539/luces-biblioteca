@@ -104,7 +104,7 @@
 
     <title> Biblioteca </title>  
 </head>
-<body onload="GetArduinoIO()">
+<body  onload="GetArduinoIO()">
     <div class="general">
         <button id="6" name="all" class="uncheck" onclick="playMusic();togle(6)"> Todas </button>
         <button id="7" name="up" class="uncheck" onclick="playMusic();togle(7)"> Arriva </button>
@@ -125,7 +125,8 @@
         let strLED2 = "";
         let LED2_state = 0;
 
-        let buttoms = ['uncheck', 'uncheck', 'uncheck', 'uncheck', 'uncheck', 'uncheck', 'uncheck', 'uncheck', 'uncheck']
+        let buttoms = ['uncheck', 'uncheck', 'uncheck', 'uncheck', 'uncheck', 'uncheck', 'uncheck', 'uncheck', 'uncheck'];
+        let strRELAY = [];
 
         function GetArduinoIO()
         {
@@ -133,10 +134,10 @@
             var request = new XMLHttpRequest();
                     
             // send HTTP GET request with LEDs to switch on/off if any
-            request.open("GET", "ajax_inputs" + strRELAY1 + strRELAY2 + strRELAY3 + strRELAY4 + strRELAY5 + strRELAY6 + nocache, true);
+            request.open("GET", "ajax_inputs" + strRELAY[0] + strRELAY[1] + strRELAY[2] + strRELAY[3] + strRELAY[4] + strRELAY[5] + nocache, true);
             request.send(null);
             setTimeout('GetArduinoIO()', 1000);
-            strRELAY1 , strRELAY2, strRELAY3, strRELAY4, strRELAY5, strRELAY6 = "";
+            strRELAY[0] , strRELAY[1], strRELAY[2], strRELAY[3], strRELAY[4], strRELAY[5] = "";
         }
 
 
@@ -231,12 +232,13 @@
             }
 
             for (let index = 0; index < 7; index++) {
-                if (buttoms[index - 1] == "check") {
+                if (buttoms[index] == "check") {
                     strRELAY[index] = `&Relay${index}=1`;
                 }
                 else {
                     strRELAY[index] = `&Relay${index}=0`;
                 }  
+                //console.log(index)
             }
 
 
