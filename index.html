@@ -1,123 +1,7 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-    <style>
-        html{
-            height: 95%; 
-        }
-        body{
-            height: 100%;
-            display: grid;
-            grid-template-rows: 40% 60%;
-        
-            padding: 3%;
-        }
-        
-        .general{
-            grid-row: 1;
-        
-            display: grid;
-            grid-template-rows: 3;
-        }
-        
-        .especifico{
-            grid-row: 2;
-        
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            grid-template-rows: 3;
-            grid-column-gap: 3%;
-            
-        }
-        
-        #1, #3, #5{
-            grid-column: 1;
-        }
-        
-        #2, #4, #6{
-            grid-column: 2;
-        }
-        
-        button{
-            border-radius: 30px;
-        
-            font-family: 'Nunito', sans-serif;
-            font-size: 3rem; 
-        
-            border-style: solid;
-            border-width: 1px;
-        }
-        .general button{    
-            margin-bottom: 3%; 
-        }
-        
-        .especifico button{
-            margin-top: 3%;
-            height: 93%;
-            width: 100%;
-        }
-        
-        
-        
-        
-        /* Dark mode */
-        @media (prefers-color-scheme: Dark) {
-            body {
-                background-color: #343639;
-            }
-            .uncheck{
-                background-color: #343639;
-                border-color: #efbe2c;
-                color: #efbe2c;
-            }
-            
-            .check{
-                border: black;
-                background-color: #efbe2c;
-                color: #343639;
-            }
-        }
-        
-        /* Light mode */
-        @media (prefers-color-scheme: Light) {
-            body {
-                background-color: white;
-            }
-            .uncheck{
-                border: black;
-                background-color: #c4c4c4;
-                color: #343639;
-            }
-            
-            .check{
-                background-color: #efbe2c;
-                border-color: #343639;
-            }
-        }
-    </style>
-    
-    <link rel="icon" href="icon.png" type="image/png" />
-
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">  
-
-    <title> Biblioteca </title>  
-</head>
-<body>
-    <div class="general">
-        <button id="6" name="all" class="uncheck" onclick="playMusic();togle(6)"> Todas </button>
-        <button id="7" name="up" class="uncheck" onclick="playMusic();togle(7)"> Arriva </button>
-        <button id="8" name="down" class="uncheck" onclick="playMusic();togle(8)"> Abajo </button>
-    </div>
-    <div class="especifico">
-        <button id="0" class="uncheck" onclick="playMusic();togle(0)"> 1 </button>
-        <button id="1" class="uncheck" onclick="playMusic();togle(1)"> 2 </button>
-        <button id="2" class="uncheck" onclick="playMusic();togle(2)"> 3 </button>
-        <button id="3" class="uncheck" onclick="playMusic();togle(3)"> 4 </button>
-        <button id="4" class="uncheck" onclick="playMusic();togle(4)"> 5 </button>
-        <button id="5" class="uncheck" onclick="playMusic();togle(5)"> 6 </button>
-    </div>
+    <title> Biblioteca </title> 
     <script>
         let music;
         var elemet;
@@ -134,7 +18,7 @@
             var request = new XMLHttpRequest();
                     
             // send HTTP GET request with LEDs to switch on/off if any
-            request.open("GET", "ajax_inputs" + strRELAY[0] + strRELAY[1] + strRELAY[2] + strRELAY[3] + strRELAY[4] + strRELAY[5] + nocache, true);
+            request.open("GET", "ajax_inputs" + strRELAY[0] + strRELAY[1] + strRELAY[2] + strRELAY[3] + strRELAY[4] + strRELAY[5] + nocache, true + '/n');
             request.send(null);
             setTimeout('GetArduinoIO()', 1000);
             strRELAY[0] , strRELAY[1], strRELAY[2], strRELAY[3], strRELAY[4], strRELAY[5] = "";
@@ -245,5 +129,114 @@
 
         }
     </script>
+    <style>
+        html{
+            height: 95%; 
+        }
+        body{
+            height: 100%;
+            display: grid;
+            grid-template-rows: 40% 60%;
+        
+            padding: 3%;
+        }
+        
+        .general{
+            grid-row: 1;
+        
+            display: grid;
+            grid-template-rows: 3;
+        }
+        
+        .especifico{
+            grid-row: 2;
+        
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            grid-template-rows: 3;
+            grid-column-gap: 3%;
+            
+        }
+        
+        #1, #3, #5{
+            grid-column: 1;
+        }
+        
+        #2, #4, #6{
+            grid-column: 2;
+        }
+        
+        button{
+            border-radius: 30px;
+        
+            font-family: 'Nunito', sans-serif;
+            font-size: 3rem; 
+        
+            border-style: solid;
+            border-width: 1px;
+        }
+        .general button{    
+            margin-bottom: 3%; 
+        }
+        
+        .especifico button{
+            margin-top: 3%;
+            height: 93%;
+            width: 100%;
+        }
+        
+        
+        
+        
+        /* Dark mode */
+        @media (prefers-color-scheme: Dark) {
+            body {
+                background-color: #343639;
+            }
+            .uncheck{
+                background-color: #343639;
+                border-color: #efbe2c;
+                color: #efbe2c;
+            }
+            
+            .check{
+                border: black;
+                background-color: #efbe2c;
+                color: #343639;
+            }
+        }
+        
+        /* Light mode */
+        @media (prefers-color-scheme: Light) {
+            body {
+                background-color: white;
+            }
+            .uncheck{
+                border: black;
+                background-color: #c4c4c4;
+                color: #343639;
+            }
+            
+            .check{
+                background-color: #efbe2c;
+                border-color: #343639;
+            }
+        }
+    </style> 
+</head>
+<body>
+    <div class="general">
+        <button id="6" name="all" class="uncheck" onclick="playMusic();togle(6)"> Todas </button>
+        <button id="7" name="up" class="uncheck" onclick="playMusic();togle(7)"> Arriva </button>
+        <button id="8" name="down" class="uncheck" onclick="playMusic();togle(8)"> Abajo </button>
+    </div>
+    <div class="especifico">
+        <button id="0" class="uncheck" onclick="playMusic();togle(0)"> 1 </button>
+        <button id="1" class="uncheck" onclick="playMusic();togle(1)"> 2 </button>
+        <button id="2" class="uncheck" onclick="playMusic();togle(2)"> 3 </button>
+        <button id="3" class="uncheck" onclick="playMusic();togle(3)"> 4 </button>
+        <button id="4" class="uncheck" onclick="playMusic();togle(4)"> 5 </button>
+        <button id="5" class="uncheck" onclick="playMusic();togle(5)"> 6 </button>
+    </div>
 </body>
 </html>
