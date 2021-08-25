@@ -104,7 +104,7 @@
 
     <title> Biblioteca </title>  
 </head>
-<body  onload="GetArduinoIO()">
+<body>
     <div class="general">
         <button id="6" name="all" class="uncheck" onclick="playMusic();togle(6)"> Todas </button>
         <button id="7" name="up" class="uncheck" onclick="playMusic();togle(7)"> Arriva </button>
@@ -233,10 +233,11 @@
 
             for (let index = 0; index < 7; index++) {
                 if (buttoms[index] == "check") {
-                    strRELAY[index] = `&Relay${index}=1`;
+                    strRELAY[index] = `&Relay${index+1}=1`;
+                    console.log(`&Relay${index+1}=1`);
                 }
                 else {
-                    strRELAY[index] = `&Relay${index}=0`;
+                    strRELAY[index] = `&Relay${index+1}=0`;
                 }  
                 //console.log(index)
             }
