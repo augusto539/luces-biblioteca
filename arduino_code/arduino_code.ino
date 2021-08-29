@@ -1,35 +1,3 @@
-/*--------------------------------------------------------------
-  Program:      web_server_hw_button_pg_button
-
-  Description:  Arduino web server that allows two LEDs to be
-                controlled by a checkbox, HTML button and two
-                hardware push buttons.
-                The web page is stored on the micro SD card.
-  
-  Hardware:     Arduino Uno and official Arduino Ethernet
-                shield. Should work with other Arduinos and
-                compatible Ethernet shields.
-                2Gb micro SD card formatted FAT16.
-                LEDs on pins 6 and 7.
-                Switches on pins 2 and 3.
-                
-  Software:     Developed using Arduino 1.6.1 software
-                Should be compatible with Arduino 1.0 +
-                SD card contains web page called index.htm
-  
-  References:   - Based on Ajax I/O example from Starting
-                  Electronics:
-                  http://startingelectronics.org/tutorials/arduino/ethernet-shield-web-server-tutorial/SD-card-IO/
-                  
-                - Switch debouncing from Arduino IDE example code
-                  File --> Examples --> 02.Digital --> Debounce
-                  http://www.arduino.cc/en/Tutorial/Debounce
-
-  Date:         13 April 2015
- 
-  Author:       W.A. Smith, http://startingelectronics.org
---------------------------------------------------------------*/
-
 #include <SPI.h>
 #include <Ethernet.h>
 #include <SD.h>
@@ -43,7 +11,6 @@ EthernetServer server(80);  // create a server at port 80
 File webFile;               // the web page file on the SD card
 char HTTP_req[REQ_BUF_SZ] = {0}; // buffered HTTP request stored as null terminated string
 char req_index = 0;              // index into HTTP_req buffer
-boolean LED_state[2] = {0}; // stores the states of the LEDs
 
 void setup()
 {
@@ -66,16 +33,14 @@ void setup()
         return;  // can't find index file
     }
     Serial.println("SUCCESS - Found index.htm file.");
-    // switches
-    pinMode(2, INPUT);
-    
-    // LEDs
+
+    // RELEs
     pinMode(3, OUTPUT);
     pinMode(5, OUTPUT);
     pinMode(6, OUTPUT);
     pinMode(7, OUTPUT);
     pinMode(8, OUTPUT);
-    pinMode(9, OUTPUT);
+    pinMode(9, OUTPUT);  
     
     Ethernet.begin(mac, ip);  // initialize Ethernet device
     server.begin();           // start to listen for clients
@@ -111,8 +76,7 @@ void loop()
                         client.println("Connection: keep-alive");
                         client.println();
                         SetLEDs();
-                        // send XML file containing input states
-                      //  XML_response(client);
+
                     }
                     else {  // web page request
                         // send rest of HTTP header
@@ -150,127 +114,62 @@ void loop()
         delay(2);      // give the web browser time to receive the data
         client.stop(); // close the connection
     } // end if (client)
-    
-    // read buttons and debounce
-
 }
-
-// function reads the push button switch states, debounces and latches the LED states
-// toggles the LED states on each push - release cycle
-// hard coded to debounce two switches on pins 2 and 3; and two LEDs on pins 6 and 7
-// function adapted from Arduino IDE built-in example:
-// File --> Examples --> 02.Digital --> Debounce
-
-
-
-// checks if received HTTP request is switching on/off LEDs
-// also saves the state of the LEDs
+// checks if received HTTP request is switching on/off RELEs
 void SetLEDs(void)
 {
-    // LED 1 (pin 6)
+    // RELE 1 (pin 9)
     if (StrContains(HTTP_req, "0=1")) {
-       
         digitalWrite(9, HIGH);
     }
     else if (StrContains(HTTP_req, "0=0")) {
-      
         digitalWrite(9, LOW);
     }
-    // LED 2 (pin 7)
+    // RELE 2 (pin 8)
     if (StrContains(HTTP_req, "1=1")) {
-        
         digitalWrite(8, HIGH);
     }
     else if (StrContains(HTTP_req, "1=0")) {
-        
         digitalWrite(8, LOW);
     }
-
+    // RELE 3 (pin 7)
     if (StrContains(HTTP_req, "2=1")) {
-      
         digitalWrite(7, HIGH);
     }
     else if (StrContains(HTTP_req, "2=0")) {
-     
         digitalWrite(7, LOW);
     }
-
-
-
+    // RELE 4 (pin 6)
     if (StrContains(HTTP_req, "3=1")) {
-      
         digitalWrite(6, HIGH);
     }
     else if (StrContains(HTTP_req, "3=0")) {
-     
         digitalWrite(6, LOW);
     }
-
-
+    // RELE 5 (pin 5)
     if (StrContains(HTTP_req, "4=1")) {
-      
         digitalWrite(5, HIGH);
     }
     else if (StrContains(HTTP_req, "4=0")) {
-     
         digitalWrite(5, LOW);
     }
-
-
+    // RELE 6 (pin 4)
     if (StrContains(HTTP_req, "5=1")) {
-      
         digitalWrite(3, HIGH);
     }
     else if (StrContains(HTTP_req, "5=0")) {
-     
         digitalWrite(3, LOW);
     }
 
 }
 
-// send the XML file with analog values, switch status
-//  and LED status
-
-/*
-void XML_response(EthernetClient cl)
-{
-    int analog_val;            // stores value read from analog inputs
-    int count;                 // used by 'for' loops
-    int sw_arr[] = {2, 3};  // pins interfaced to switches
-    
-    cl.print("<?xml version = \"1.0\" ?>");
-    cl.print("<inputs>");
-    // checkbox LED states
-    // LED1
-    cl.print("<LED>");
-    if (LED_state[0]) {
-        cl.print("checked");
-    }
-    else {
-        cl.print("unchecked");
-    }
-    cl.println("</LED>");
-    // button LED states
-    // LED3
-    cl.print("<LED>");
-    if (LED_state[1]) {
-        cl.print("on");
-    }
-    else {
-        cl.print("off");
-    }
-    cl.println("</LED>");
-    cl.print("</inputs>");
-}
-*/
-
-// sets every element of str to 0 (clears array)
+// sets every element of str to 0
 void StrClear(char *str, char length)
 {
     for (int i = 0; i < length; i++) {
         str[i] = 0;
     }
-}
+} 
 
 // searches for the string sfind in the string str
 // returns 1 if string found
@@ -298,6 +197,5 @@ char StrContains(char *str, char *sfind)
         }
         index++;
     }
-
     return 0;
 }

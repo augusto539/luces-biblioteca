@@ -1,7 +1,12 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title> Biblioteca </title> 
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="shortcut icon" href="https://raw.githubusercontent.com/augusto539/luces-biblioteca/master/icon.png" type="image/x-icon">
+    <title> Luces Biblioteca </title> 
     <script>
         let music;
         var elemet;
@@ -16,17 +21,11 @@
             nocache = "&nocache=" + Math.random() * 1000000;
             var request = new XMLHttpRequest();
                     
-            // send HTTP GET request with LEDs to switch on/off if any
+            // send HTTP GET request with RELE to switch on/off if any
             request.open("GET", "ajax_inputs" + strRELAY[0] + strRELAY[1] + strRELAY[2] + strRELAY[3] + strRELAY[4] + strRELAY[5] + nocache, true);
             request.send(null);
             setTimeout('GetArduinoIO()', 1000);
             strRELAY = ['', '', '' ,'', '', ''];
-        }
-
-
-        function playMusic(){
-            music = new Audio('sound-14.mp3');
-            music.play();
         }
 
         function togle(id){
@@ -89,6 +88,25 @@
                 }
             }
 
+            
+            general_buttons();
+
+            rite();
+            
+
+            for (let index = 0; index < 7; index++) {
+                if (buttoms[index] == "check") {
+                    strRELAY[index] = `&${index}=1`;
+                    //console.log(`&${index}=1`);
+                }
+                else {
+                    strRELAY[index] = `&${index}=0`;
+                }  
+                //console.log(index)
+            }
+        }
+
+        function general_buttons(){
             if (buttoms[0] == 'check' && buttoms[1] == 'check' && buttoms[2] == 'check' && buttoms[3] == 'check' && buttoms[4] == 'check' && buttoms[5] == 'check') {
                 buttoms[6] = 'check'
         
@@ -107,25 +125,12 @@
             } else {
                 buttoms[8] = 'uncheck'
             }
-            
+        }
 
-
+        function rite(){
             for (let index = 0; index < buttoms.length; index++) {
                 document.getElementById(index).className = buttoms[index];    
             }
-
-            for (let index = 0; index < 7; index++) {
-                if (buttoms[index] == "check") {
-                    strRELAY[index] = `&${index}=1`;
-                    console.log(`&${index}=1`);
-                }
-                else {
-                    strRELAY[index] = `&${index}=0`;
-                }  
-                //console.log(index)
-            }
-
-
         }
     </script>
     <style>
@@ -225,17 +230,17 @@
 </head>
 <body onload="GetArduinoIO()">
     <div class="general">
-        <button id="6" name="all" class="uncheck" onclick="playMusic();togle(6)"> Todas </button>
-        <button id="7" name="up" class="uncheck" onclick="playMusic();togle(7)"> Arriva </button>
-        <button id="8" name="down" class="uncheck" onclick="playMusic();togle(8)"> Abajo </button>
+        <button id="6" name="all" class="uncheck" onclick="togle(6)"> Todas </button>
+        <button id="7" name="up" class="uncheck" onclick="togle(7)"> Arriba </button>
+        <button id="8" name="down" class="uncheck" onclick="togle(8)"> Abajo </button>
     </div>
     <div class="especifico">
-        <button id="0" class="uncheck" onclick="playMusic();togle(0)"> 1 </button>
-        <button id="1" class="uncheck" onclick="playMusic();togle(1)"> 2 </button>
-        <button id="2" class="uncheck" onclick="playMusic();togle(2)"> 3 </button>
-        <button id="3" class="uncheck" onclick="playMusic();togle(3)"> 4 </button>
-        <button id="4" class="uncheck" onclick="playMusic();togle(4)"> 5 </button>
-        <button id="5" class="uncheck" onclick="playMusic();togle(5)"> 6 </button>
+        <button id="0" class="uncheck" onclick="togle(0)"> 1 </button>
+        <button id="1" class="uncheck" onclick="togle(1)"> 2 </button>
+        <button id="2" class="uncheck" onclick="togle(2)"> 3 </button>
+        <button id="3" class="uncheck" onclick="togle(3)"> 4 </button>
+        <button id="4" class="uncheck" onclick="togle(4)"> 5 </button>
+        <button id="5" class="uncheck" onclick="togle(5)"> 6 </button>
     </div>
 </body>
 </html>
