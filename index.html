@@ -15,31 +15,22 @@
 
         let buttoms = ['uncheck', 'uncheck', 'uncheck', 'uncheck', 'uncheck', 'uncheck', 'uncheck', 'uncheck', 'uncheck'];
         let strRELAY = ['','','','','',''];
+        let resived = ['','','','','',''];
 
         function GetArduinoIO()
         {
             nocache = "&nocache=" + Math.random() * 1000000;
             var request = new XMLHttpRequest();                   
-           
-            if (this.readyState == 4) {
-                if (this.status == 200) {
-                    if (this.responseXML != null) {
-                        for (let index = 0; index < 7; index++){
-                            if (this.responseXML.getElementsByTagName('R')[index].childNodes[0] == "1") {
-                                console.log(`state ${index}= 1`);
-                            }
-                            else {
-                                console.log(`state ${index}= 0`);
-                            }
-                        }
-                    }
-                }
-            }
 
             request.open("GET", "ajax_inputs" + strRELAY[0] + strRELAY[1] + strRELAY[2] + strRELAY[3] + strRELAY[4] + strRELAY[5] + nocache, true);
             request.send(null);
+
+            setTimeout(status(request),5);
+
             setTimeout('GetArduinoIO()', 1000);
             strRELAY = ['','','','','',''];
+
+            
         }
 
         function togle(id){
@@ -103,9 +94,9 @@
             }
 
             
-            general_buttons();
+            general_buttons(buttoms);
 
-            rite();
+            rite(buttoms);
             
 
             for (let index = 0; index < 7; index++) {
@@ -118,30 +109,52 @@
             }
         }
 
-        function general_buttons(){
-            if (buttoms[0] == 'check' && buttoms[1] == 'check' && buttoms[2] == 'check' && buttoms[3] == 'check' && buttoms[4] == 'check' && buttoms[5] == 'check') {
-                buttoms[6] = 'check'
+        function general_buttons(array){
+            if (array[0] == 'check' && array[1] == 'check' && array[2] == 'check' && array[3] == 'check' && array[4] == 'check' && array[5] == 'check') {
+                array[6] = 'check'
         
             } else {
-                buttoms[6] = 'uncheck'
+                array[6] = 'uncheck'
             }
 
-            if (buttoms[0] == 'check' && buttoms[1] == 'check' && buttoms[2] == 'check' && buttoms[3] == 'check' && buttoms[4] != 'check' && buttoms[5] != 'check') {
-                buttoms[7] = 'check'
+            if (array[0] == 'check' && array[1] == 'check' && array[2] == 'check' && array[3] == 'check' && array[4] != 'check' && array[5] != 'check') {
+                array[7] = 'check'
             } else {
-                buttoms[7] = 'uncheck'
+                array[7] = 'uncheck'
             }
 
-            if (buttoms[0] != 'check' && buttoms[1] != 'check' && buttoms[2] != 'check' && buttoms[3] != 'check' && buttoms[4] == 'check' && buttoms[5] == 'check') {
-                buttoms[8] = 'check'
+            if (array[0] != 'check' && array[1] != 'check' && array[2] != 'check' && array[3] != 'check' && array[4] == 'check' && array[5] == 'check') {
+                array[8] = 'check'
             } else {
-                buttoms[8] = 'uncheck'
+                array[8] = 'uncheck'
             }
         }
 
-        function rite(){
-            for (let index = 0; index < buttoms.length; index++) {
-                document.getElementById(index).className = buttoms[index];    
+        function rite(array){
+            for (let index = 0; index < array.length; index++) {
+                document.getElementById(index).className = array[index];    
+            }
+        }
+
+        function status(request){
+            request.onreadystatechange = function() {
+                if (this.readyState == 4) {
+                    if (this.status == 200) {
+                        if (this.responseXML != null) {                           
+                            for (let index = 0; index < 6; index++){
+                                if (this.responseXML.getElementsByTagName('R')[index].childNodes[0].nodeValue == "1") {
+                                    resived[index] = 'check'
+                                }
+                                else {
+                                    resived[index] = 'uncheck'
+                                }
+                            }
+                            general_buttons(resived);
+
+                           rite(resived);
+                        }
+                    }
+                }
             }
         }
     </script>

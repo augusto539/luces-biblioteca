@@ -11,6 +11,7 @@ EthernetServer server(80);  // create a server at port 80
 File webFile;               // the web page file on the SD card
 char HTTP_req[REQ_BUF_SZ] = {0}; // buffered HTTP request stored as null terminated string
 char req_index = 0;              // index into HTTP_req buffer
+boolean RELE_state[6] = {0}; // stores the states of the RELEs
 
 void setup()
 {
@@ -76,7 +77,8 @@ void loop()
                         client.println("Connection: keep-alive");
                         client.println();
                         SetLEDs();
-
+                        
+                        XML_response(client);
                     }
                     else {  // web page request
                         // send rest of HTTP header
@@ -120,47 +122,79 @@ void SetLEDs(void)
 {
     // RELE 1 (pin 9)
     if (StrContains(HTTP_req, "0=1")) {
+        RELE_state[0] = 1;  // save RELE state
         digitalWrite(9, HIGH);
     }
     else if (StrContains(HTTP_req, "0=0")) {
+        RELE_state[0] = 0;  // save RELE state
         digitalWrite(9, LOW);
     }
     // RELE 2 (pin 8)
     if (StrContains(HTTP_req, "1=1")) {
+        RELE_state[1] = 1;  
         digitalWrite(8, HIGH);
     }
     else if (StrContains(HTTP_req, "1=0")) {
+        RELE_state[1] = 0;  
         digitalWrite(8, LOW);
     }
     // RELE 3 (pin 7)
     if (StrContains(HTTP_req, "2=1")) {
+        RELE_state[2] = 1;  
         digitalWrite(7, HIGH);
     }
     else if (StrContains(HTTP_req, "2=0")) {
+        RELE_state[2] = 0;
         digitalWrite(7, LOW);
     }
     // RELE 4 (pin 6)
     if (StrContains(HTTP_req, "3=1")) {
+        RELE_state[3] = 1;
         digitalWrite(6, HIGH);
     }
     else if (StrContains(HTTP_req, "3=0")) {
+        RELE_state[3] = 0;
         digitalWrite(6, LOW);
     }
     // RELE 5 (pin 5)
     if (StrContains(HTTP_req, "4=1")) {
+        RELE_state[4] = 1;
         digitalWrite(5, HIGH);
     }
     else if (StrContains(HTTP_req, "4=0")) {
+        RELE_state[4] = 0;
         digitalWrite(5, LOW);
     }
     // RELE 6 (pin 4)
     if (StrContains(HTTP_req, "5=1")) {
+        RELE_state[5] = 1;
         digitalWrite(3, HIGH);
     }
     else if (StrContains(HTTP_req, "5=0")) {
+        RELE_state[5] = 0;
         digitalWrite(3, LOW);
     }
 
+}
+
+void XML_response(EthernetClient cl)
+{   
+    cl.print("<?xml version = \"1.0\" ?>");
+    cl.print("<inputs>");
+
+    for (int P = 0; P < 6; P++) {
+        cl.print("<R>");
+        if (RELE_state[P]) {
+            cl.print("1");
+        }
+        else {
+            cl.print("0");
+        }
+        cl.println("</R>");
+    }
+    
+    
+    cl.print("</inputs>");
 }
 
 // sets every element of str to 0
