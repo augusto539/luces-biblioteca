@@ -14,18 +14,32 @@
         let LED2_state = 0;
 
         let buttoms = ['uncheck', 'uncheck', 'uncheck', 'uncheck', 'uncheck', 'uncheck', 'uncheck', 'uncheck', 'uncheck'];
-        let strRELAY = ['', '', '' ,'', '', ''];
+        let strRELAY = ['','','','','',''];
 
         function GetArduinoIO()
         {
             nocache = "&nocache=" + Math.random() * 1000000;
-            var request = new XMLHttpRequest();
-                    
-            // send HTTP GET request with RELE to switch on/off if any
+            var request = new XMLHttpRequest();                   
+           
+            if (this.readyState == 4) {
+                if (this.status == 200) {
+                    if (this.responseXML != null) {
+                        for (let index = 0; index < 7; index++){
+                            if (this.responseXML.getElementsByTagName('R')[index].childNodes[0] == "1") {
+                                console.log(`state ${index}= 1`);
+                            }
+                            else {
+                                console.log(`state ${index}= 0`);
+                            }
+                        }
+                    }
+                }
+            }
+
             request.open("GET", "ajax_inputs" + strRELAY[0] + strRELAY[1] + strRELAY[2] + strRELAY[3] + strRELAY[4] + strRELAY[5] + nocache, true);
             request.send(null);
             setTimeout('GetArduinoIO()', 1000);
-            strRELAY = ['', '', '' ,'', '', ''];
+            strRELAY = ['','','','','',''];
         }
 
         function togle(id){
@@ -97,12 +111,10 @@
             for (let index = 0; index < 7; index++) {
                 if (buttoms[index] == "check") {
                     strRELAY[index] = `&${index}=1`;
-                    //console.log(`&${index}=1`);
                 }
                 else {
                     strRELAY[index] = `&${index}=0`;
                 }  
-                //console.log(index)
             }
         }
 
@@ -190,8 +202,6 @@
         }
         
         
-        
-        
         /* Dark mode */
         @media (prefers-color-scheme: Dark) {
             body {
@@ -222,7 +232,7 @@
             }
             
             .check{
-                background-color: #efbe2c;
+                background-color: #ffd147;
                 border-color: #343639;
             }
         }
